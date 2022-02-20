@@ -31,6 +31,7 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
   Brain.Screen.clearScreen();
   Brain.Screen.setPenColor(black);
   Brain.Screen.setPenWidth(3);
+  Brain.Screen.setFont(monoL);
 
   // Draw inner circle of the gear
   Brain.Screen.drawCircle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, minor_radius);
@@ -70,6 +71,9 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
   for (int i = 0; i < 360; i++) {
     Brain.Screen.drawLine(gear_coords[i][0], gear_coords[i][1], gear_coords[i + 1][0], gear_coords[i + 1][1]);
   }
+
+  Brain.Screen.setCursor(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+  Brain.Screen.print("ENGR\nCLUB");
 }
 
 int main() {
