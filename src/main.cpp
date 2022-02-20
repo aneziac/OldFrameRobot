@@ -38,11 +38,14 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
   // Angle in degrees between teeth of gear
   const int angle_between_teeth = int(360 / teeth);
 
+  // Array to store gear coordinates
+  int gear_coords[361][2];
+
   // Loop over degrees in the gear circle
   for (int i=0; i < 360; i++) {
 
     // Determine position in current gear cycle, since they're periodic
-    int cycle_position = i % angle_between_teeth;
+    const int cycle_position = i % angle_between_teeth;
     int r = major_radius;
 
     // Determine radius
@@ -54,14 +57,18 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
       r += (subtending_angle - cycle_position) * 4;
     }
 
-    // Compute the current and next point on the gear
-    int x_0 = r * cos(to_radians(i)) + SCREEN_WIDTH / 2;
-    int y_0 = r * sin(to_radians(i)) + SCREEN_HEIGHT / 2;
-    int x_1 = r * cos(to_radians(i + 1)) + SCREEN_WIDTH / 2;
-    int y_1 = r * sin(to_radians(i + 1)) + SCREEN_HEIGHT / 2;
+    // Compute the current point on the gear
+    const int x_0 = r * cos(to_radians(i)) + SCREEN_WIDTH / 2;
+    const int y_0 = r * sin(to_radians(i)) + SCREEN_HEIGHT / 2;
+    gear_coords[i][0] = x_0, gear_coords[i][1] = y_0;
+  }
 
-    // Draw a line between those points
-    Brain.Screen.drawLine(x_0, y_0, x_1, y_1);
+  // Close loop by adding first point to the end
+  gear_coords[360][0] = gear_coords[0][0], gear_coords[360][1] = gear_coords[0][1];
+
+  // Draw lines between consecutive pairs of points
+  for (int i = 0; i < 360; i++) {
+    Brain.Screen.drawLine(gear_coords[i][0], gear_coords[i][1], gear_coords[i + 1][0], gear_coords[i + 1][1]);
   }
 }
 
