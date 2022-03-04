@@ -10,13 +10,13 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Controller1          controller
-// leftFrontMotor       motor         11
-// leftBackMotor        motor         12
-// rightFrontMotor      motor         1
-// rightBackMotor       motor         2
-// armMotor             motor29       H
-// clawMotor            motor29       A
+// leftFrontMotor       motor         11              
+// leftBackMotor        motor         12              
+// rightFrontMotor      motor         1               
+// rightBackMotor       motor         2               
+// armMotor             motor29       H               
+// clawMotor            motor29       A               
+// Controller1          controller                    
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
