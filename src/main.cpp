@@ -17,6 +17,7 @@
 // armMotor             motor29       H               
 // clawMotor            motor29       A               
 // Controller1          controller                    
+// Vision1              vision        15              
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
