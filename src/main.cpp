@@ -10,17 +10,15 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Controller1          controller
-// leftFrontMotor       motor         11
-// leftBackMotor        motor         12
-// rightFrontMotor      motor         1
-// rightBackMotor       motor         2
-// armMotor             motor29       H
-// clawMotor            motor29       A
+// Controller1          controller                    
+// robotEyes            vision        15              
+// armMotor             motor         16              
+// chainMotor           motor         17              
+// leftWheels           motor         1               
+// rightWheels          motor         11              
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
-#include "vex.h"
-
+#include "vex.h" 
 using namespace vex;
 
 const int SCREEN_WIDTH = 480;
@@ -85,12 +83,15 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
 
 int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
+ 
   vexcodeInit();
   drawLogo();
-
+/*
   // creates a group of motors for each side.
   motor_group leftSideMotors = motor_group(leftFrontMotor, leftBackMotor);
   motor_group rightSideMotors = motor_group(rightFrontMotor, rightBackMotor);
+*/
+
 
   // Creates a forever loop to keep the program running, until a specific condition is used to stop it.
   while(1)
@@ -104,14 +105,52 @@ int main() {
     //uses the left analog stick
     // (up or down) + number (+ direction means right)
     // (up or down) - number (- direction means left)
-    leftSideMotors.spin(forward, Controller1.Axis3.position() + Controller1.Axis4.position(), pct);
-    rightSideMotors.spin(forward, Controller1.Axis3.position() + Controller1.Axis4.position(), pct);
+   // leftSideMotors.spin(forward, Controller1.Axis3.position() + Controller1.Axis4.position(), pct);
+    //rightSideMotors.spin(forward, Controller1.Axis3.position() + Controller1.Axis4.position(), pct);
+    leftWheels.spin(directionType::fwd,Controller1.Axis3.value(),velocityUnits::pct);
+    rightWheels.spin(directionType::fwd,Controller1.Axis2.value(),velocityUnits::pct);
 
-    armMotor.spin(forward, Controller1.Axis2.position(), pct);
-    clawMotor.spin(forward, Controller1.Axis1.position(), pct);
+  // we want to adjust the speed for the arm and the chain motor.
+  // Therefore we can set separate variables for this.
+    int armMotorSpeed = 50;
+    int chainMotorSpeed = 50;
 
-    // Want to learn: What can I do to change how fast the motors are turning?
-    // How can I make the claw of the robot close? (gears? Program?)
+  // set the armMotor and chainMotor to the trigger buttons.
+
+  // if L1 is triggered then move the arm up
+  // if L2 is triggered then move the arm down
+  // if nothing is pressed, hold the arm in the current position where it was left off.
+    if(Controller1.ButtonL1.pressing())
+    {
+      armMotor.spin(directionType::fwd, armMotorSpeed,velocityUnits::pct);
+    }
+    else if(Controller1.ButtonL2.pressing())
+    {
+      armMotor.spin(directionType::rev, armMotorSpeed,velocityUnits::pct);
+    }
+    else
+    {
+      armMotor.stop(brakeType::hold);
+    }
+
+  // if R1 is triggered then move the arm up
+  // if R2 is triggered then move the arm down
+  // if nothing is pressed, hold the arm in the current position where it was left off.
+     if(Controller1.ButtonR1.pressing())
+    {
+      chainMotor.spin(directionType::fwd, chainMotorSpeed,velocityUnits::pct);
+    }
+    else if(Controller1.ButtonR2.pressing())
+    {
+      chainMotor.spin(directionType::rev, chainMotorSpeed,velocityUnits::pct);
+    }
+    else
+    {
+      chainMotor.stop(brakeType::hold);
+    }
+
+
+  
 
 
     wait(20,msec); // for refreshing the program.
