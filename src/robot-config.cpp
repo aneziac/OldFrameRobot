@@ -17,7 +17,7 @@ vision robotEyes = vision (PORT15, 50, robotEyes__COLORRED, robotEyes__SIG_2, ro
 /*vex-vision-config:end*/
 motor armMotor = motor(PORT16, ratio18_1, false);
 motor chainMotor = motor(PORT17, ratio18_1, false);
-motor leftWheels = motor(PORT1, ratio18_1, false);
+motor leftWheels = motor(PORT1, ratio18_1, true);
 motor rightWheels = motor(PORT11, ratio18_1, false);
 
 // VEXcode generated functions

@@ -10,15 +10,18 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// robotEyes            vision        15              
-// armMotor             motor         16              
-// chainMotor           motor         17              
-// leftWheels           motor         1               
-// rightWheels          motor         11              
+// Controller1          controller
+// robotEyes            vision        15
+// armMotor             motor         16
+// chainMotor           motor         17
+// leftWheels           motor         1
+// rightWheels          motor         11
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
-#include "vex.h" 
+// PORT 11 - 20 are on the left side
+// PORT 1 - 10 are on the right side
+
+#include "vex.h"
 using namespace vex;
 
 const int SCREEN_WIDTH = 480;
@@ -34,7 +37,7 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
 
   // Prepare screen for drawing
   Brain.Screen.clearScreen();
-  Brain.Screen.setPenColor(black);
+  Brain.Screen.setPenColor(color::black);
   Brain.Screen.setPenWidth(3);
   Brain.Screen.setFont(monoL);
 
@@ -48,7 +51,7 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
   int gear_coords[361][2];
 
   // Loop over degrees in the gear circle
-  for (int i=0; i < 360; i++) {
+  for (int i = 0; i < 360; i++) {
 
     // Determine position in current gear cycle, since they're periodic
     const int cycle_position = i % angle_between_teeth;
@@ -78,48 +81,56 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
   }
 
   Brain.Screen.setCursor(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-  Brain.Screen.print("ENGR\nCLUB");
+  Brain.Screen.print("ENGR CLUB");
+  Brain.Screen.render();
+}
+
+void writeInfo(const int line, int value) {
+  Brain.Screen.clearLine(line, color::black);
+  Brain.Screen.setCursor(line, 1);
+  Brain.Screen.print(value);
 }
 
 int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
- 
   vexcodeInit();
-  drawLogo();
-/*
-  // creates a group of motors for each side.
+
+  // Draws gear logo (not working)
+  // drawLogo();
+  /*
+  // creates a group of motors for each side (not needed since we currently have 1 motor each side)
   motor_group leftSideMotors = motor_group(leftFrontMotor, leftBackMotor);
   motor_group rightSideMotors = motor_group(rightFrontMotor, rightBackMotor);
-*/
-
+  */
+  bool running = true;
 
   // Creates a forever loop to keep the program running, until a specific condition is used to stop it.
-  while(1)
+  while(running)
   {
     // left analog stick uses axis 3 (up and down) and axis 4 (left and right)
-    // PORT 11 - 20 are on the left side
-    // PORT 1 - 10 are on the right side
     // right analog stick uses axis 2 (up and down) and axis 1 (left and right)
-    // motor.spin( Direction, velocity, velocityUnits);
+    // .position() method gives a result between -100 and 100
+    // syntax: motor.spin(Direction, velocity, velocityUnits);
 
-    //uses the left analog stick
-    // (up or down) + number (+ direction means right)
-    // (up or down) - number (- direction means left)
-   // leftSideMotors.spin(forward, Controller1.Axis3.position() + Controller1.Axis4.position(), pct);
-    //rightSideMotors.spin(forward, Controller1.Axis3.position() + Controller1.Axis4.position(), pct);
-    leftWheels.spin(directionType::fwd,Controller1.Axis3.value(),velocityUnits::pct);
-    rightWheels.spin(directionType::fwd,Controller1.Axis2.value(),velocityUnits::pct);
+    // uses the left analog stick
+    // up is forward (+), down is backward (-), right is rightward (+), left is leftward (-)
+    leftWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) + Controller1.Axis4.position(pct)) / 2, pct);
+    rightWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) + Controller1.Axis4.position(pct)) / 2, pct);
 
-  // we want to adjust the speed for the arm and the chain motor.
-  // Therefore we can set separate variables for this.
+    writeInfo(1, Controller1.Axis3.value());
+    writeInfo(2, Controller1.Axis4.value());
+    Brain.Screen.render();
+
+    // we want to adjust the speed for the arm and the chain motor.
+    // Therefore we can set separate variables for this.
     int armMotorSpeed = 50;
     int chainMotorSpeed = 50;
 
-  // set the armMotor and chainMotor to the trigger buttons.
+    // set the armMotor and chainMotor to the trigger buttons.
 
-  // if L1 is triggered then move the arm up
-  // if L2 is triggered then move the arm down
-  // if nothing is pressed, hold the arm in the current position where it was left off.
+    // if L1 is triggered then move the arm up
+    // if L2 is triggered then move the arm down
+    // if nothing is pressed, hold the arm in the current position where it was left off.
     if(Controller1.ButtonL1.pressing())
     {
       armMotor.spin(directionType::fwd, armMotorSpeed,velocityUnits::pct);
@@ -133,10 +144,10 @@ int main() {
       armMotor.stop(brakeType::hold);
     }
 
-  // if R1 is triggered then move the arm up
-  // if R2 is triggered then move the arm down
-  // if nothing is pressed, hold the arm in the current position where it was left off.
-     if(Controller1.ButtonR1.pressing())
+    // if R1 is triggered then move the arm up
+    // if R2 is triggered then move the arm down
+    // if nothing is pressed, hold the arm in the current position where it was left off.
+    if(Controller1.ButtonR1.pressing())
     {
       chainMotor.spin(directionType::fwd, chainMotorSpeed,velocityUnits::pct);
     }
@@ -149,12 +160,6 @@ int main() {
       chainMotor.stop(brakeType::hold);
     }
 
-
-  
-
-
     wait(20,msec); // for refreshing the program.
-
-
   }
 }
