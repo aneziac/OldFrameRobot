@@ -25,7 +25,7 @@
 using namespace vex;
 
 const int SCREEN_WIDTH = 480;
-const int SCREEN_HEIGHT = 272;
+const int SCREEN_HEIGHT = 272 - 30;
 
 // Convert degrees to radians
 inline double to_radians(double degrees) {
@@ -37,7 +37,7 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
 
   // Prepare screen for drawing
   Brain.Screen.clearScreen();
-  Brain.Screen.setPenColor(color::black);
+  Brain.Screen.setPenColor(color::white);
   Brain.Screen.setPenWidth(3);
   Brain.Screen.setFont(monoL);
 
@@ -80,8 +80,8 @@ void drawLogo(const int teeth=12, const int subtending_angle=20, const int minor
     Brain.Screen.drawLine(gear_coords[i][0], gear_coords[i][1], gear_coords[i + 1][0], gear_coords[i + 1][1]);
   }
 
-  Brain.Screen.setCursor(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-  Brain.Screen.print("ENGR CLUB");
+  // Brain.Screen.setCursor(5, 5);
+  Brain.Screen.printAt(SCREEN_WIDTH / 2 - 65, SCREEN_HEIGHT / 2 + 10, "ENGR CLUB");
   Brain.Screen.render();
 }
 
@@ -91,12 +91,18 @@ void writeInfo(const int line, int value) {
   Brain.Screen.print(value);
 }
 
+void joystickDebug(void) {
+  writeInfo(1, Controller1.Axis3.value());
+  writeInfo(2, Controller1.Axis4.value());
+  Brain.Screen.render();
+}
+
 int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
 
-  // Draws gear logo (not working)
-  // drawLogo();
+  // Draws gear logo
+  drawLogo();
   /*
   // creates a group of motors for each side (not needed since we currently have 1 motor each side)
   motor_group leftSideMotors = motor_group(leftFrontMotor, leftBackMotor);
@@ -114,12 +120,8 @@ int main() {
 
     // uses the left analog stick
     // up is forward (+), down is backward (-), right is rightward (+), left is leftward (-)
-    leftWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) - Controller1.Axis4.position(pct)) / 2, pct);
-    rightWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) + Controller1.Axis4.position(pct)) / 2, pct);
-
-    writeInfo(1, Controller1.Axis3.value());
-    writeInfo(2, Controller1.Axis4.value());
-    Brain.Screen.render();
+    // leftWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) - Controller1.Axis4.position(pct)) / 2, pct);
+    // rightWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) + Controller1.Axis4.position(pct)) / 2, pct);
 
     // we want to adjust the speed for the arm and the chain motor.
     // Therefore we can set separate variables for this.
