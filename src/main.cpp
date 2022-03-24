@@ -10,12 +10,12 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// robotEyes            vision        15              
-// armMotor             motor         16              
-// chainMotor           motor         17              
-// leftWheels           motor         1               
-// rightWheels          motor         11              
+// Controller1          controller
+// robotEyes            vision        15
+// armMotor             motor         16
+// chainMotor           motor         17
+// leftWheels           motor         1
+// rightWheels          motor         11
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 // PORT 11 - 20 are on the left side
@@ -120,13 +120,13 @@ int main() {
 
     // uses the left analog stick
     // up is forward (+), down is backward (-), right is rightward (+), left is leftward (-)
-    // leftWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) - Controller1.Axis4.position(pct)) / 2, pct);
-    // rightWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) + Controller1.Axis4.position(pct)) / 2, pct);
+    leftWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) - Controller1.Axis4.position(pct)) / 2, pct);
+    rightWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) + Controller1.Axis4.position(pct)) / 2, pct);
 
     // we want to adjust the speed for the arm and the chain motor.
     // Therefore we can set separate variables for this.
-    int armMotorSpeed = 50;
-    int chainMotorSpeed = 50;
+    int armMotorSpeed = 15;
+    int chainMotorSpeed = 70;
 
     // set the armMotor and chainMotor to the trigger buttons.
 
