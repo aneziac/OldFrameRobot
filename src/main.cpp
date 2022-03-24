@@ -10,12 +10,12 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Controller1          controller
-// robotEyes            vision        15
-// armMotor             motor         16
-// chainMotor           motor         17
-// leftWheels           motor         1
-// rightWheels          motor         11
+// Controller1          controller                    
+// robotEyes            vision        15              
+// armMotor             motor         16              
+// chainMotor           motor         17              
+// leftWheels           motor         1               
+// rightWheels          motor         11              
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 // PORT 11 - 20 are on the left side
@@ -114,7 +114,7 @@ int main() {
 
     // uses the left analog stick
     // up is forward (+), down is backward (-), right is rightward (+), left is leftward (-)
-    leftWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) + Controller1.Axis4.position(pct)) / 2, pct);
+    leftWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) - Controller1.Axis4.position(pct)) / 2, pct);
     rightWheels.spin(directionType::fwd, (Controller1.Axis3.position(pct) + Controller1.Axis4.position(pct)) / 2, pct);
 
     writeInfo(1, Controller1.Axis3.value());
