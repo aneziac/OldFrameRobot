@@ -10,12 +10,12 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Controller1          controller
-// robotEyes            vision        15
-// armMotor             motor         16
-// chainMotor           motor         17
-// leftWheels           motor         1
-// rightWheels          motor         11
+// Controller1          controller                    
+// robotEyes            vision        10              
+// armMotor             motor         16              
+// chainMotor           motor         17              
+// leftWheels           motor         1               
+// rightWheels          motor         11              
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 // PORT 11 - 20 are on the left side
@@ -97,6 +97,11 @@ void joystickDebug(void) {
   Brain.Screen.render();
 }
 
+void identifyObjects(void) {
+  writeInfo(1, robotEyes.objectCount);
+  Brain.Screen.render();
+}
+
 int main() {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
@@ -113,6 +118,9 @@ int main() {
   // Creates a forever loop to keep the program running, until a specific condition is used to stop it.
   while(running)
   {
+    // Identify objects
+    // identifyObjects();
+
     // left analog stick uses axis 3 (up and down) and axis 4 (left and right)
     // right analog stick uses axis 2 (up and down) and axis 1 (left and right)
     // .position() method gives a result between -100 and 100

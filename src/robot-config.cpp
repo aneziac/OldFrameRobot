@@ -13,7 +13,7 @@ controller Controller1 = controller(primary);
 signature robotEyes__COLORRED = signature (1, 7447, 9661, 8554, -1721, -629, -1176, 2.9, 0);
 signature robotEyes__SIG_2 = signature (2, 0, 0, 0, 0, 0, 0, 3, 0);
 signature robotEyes__COLORBLUE = signature (3, -3201, -2625, -2914, 5139, 6767, 5952, 2, 0);
-vision robotEyes = vision (PORT15, 50, robotEyes__COLORRED, robotEyes__SIG_2, robotEyes__COLORBLUE);
+vision robotEyes = vision (PORT10, 50, robotEyes__COLORRED, robotEyes__SIG_2, robotEyes__COLORBLUE);
 /*vex-vision-config:end*/
 motor armMotor = motor(PORT16, ratio18_1, false);
 motor chainMotor = motor(PORT17, ratio18_1, false);
