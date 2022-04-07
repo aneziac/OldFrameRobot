@@ -11,7 +11,7 @@
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
 // Controller1          controller                    
-// robotEyes            vision        10              
+// robotEyes            vision        13              
 // armMotor             motor         16              
 // chainMotor           motor         17              
 // leftWheels           motor         1               
