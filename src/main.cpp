@@ -31,67 +31,33 @@ int main() {
   bool running = true;
   bool autoOn = false;
 
-  // toggle practice
-  bool toggleEnabled = false; // two-choice toggle, so we use bool
+  // Auto toggle
+  bool autoToggleEnabled = false; // two-choice toggle, so we use bool
   bool buttonPressed = false; // logic variable
 
   // Creates a forever loop to keep the program running, until a specific condition is used to stop it.
   while(running)
   {
-    if (autoOn) {
-      autoRoutine();
-    } else {
-      controls();
-    }
-
-    wait(20, msec); // for refreshing the program.
-    // toggle practice
     bool buttonA = Controller1.ButtonA.pressing();
 
     // toggle logic
     if(buttonA && !buttonPressed)
     {
       buttonPressed = true;
-      toggleEnabled = !toggleEnabled;
+      autoToggleEnabled = !autoToggleEnabled;
     }
     else if (!buttonA)
     {
       buttonPressed = false;
     }
 
-    // Code For toggle Enabled or Disabled
-    if(toggleEnabled)
-    {
-      Controller1.Screen.clearScreen();
-      Controller1.Screen.setCursor(1,1);
-      Controller1.Screen.print("Toggle On | Autonomous controls activitated");
-
-      // camera image is 316 pixels wide, so the center is 316/2
-      int screen_middle_x = 316 / 2;
-      bool linedUp = false;
-
-      while(!linedUp)
-      {
-        robotEyes.takeSnapshot(robotEyes__COLORRED);
-        if(robotEyes.objectCount > 0)
-        {
-          if (robotEyes.largestObject.centerX < screen_middle_x - 5)
-          {
-            // turn left
-          } else if (robotEyes.largestObject.centerX > screen_middle_x + 5) {
-            // turn right
-          }
-        }
-      }
-      // move toward block and stop next to it
-    }
-    else
-    {
-      Controller1.Screen.print("Toggle Off | Autonomous controls deactiviated");
-      // do initial thing
-
+    // Run auto if toggle on, otherwise use manual controls
+    if (autoToggleEnabled) {
+      autoRoutine();
+    } else {
+      controls();
     }
 
-    wait(20,msec); // for refreshing the program.
+    wait(20, msec); // for refreshing the program.
   }
 }

@@ -31,5 +31,27 @@ void turnRight(const int times) {
 }
 
 void autoRoutine(void) {
+  Controller1.Screen.clearScreen();
+  Controller1.Screen.setCursor(1,1);
+  Controller1.Screen.print("Toggle On | Autonomous controls activitated");
+
+  // camera image is 316 pixels wide, so the center is 316/2
+  int screen_middle_x = 316 / 2;
+  bool linedUp = false;
+
+  while(!linedUp)
+  {
+    robotEyes.takeSnapshot(robotEyes__COLORRED);
+    if(robotEyes.objectCount > 0)
+    {
+      if (robotEyes.largestObject.centerX < screen_middle_x - 5)
+      {
+        // turn left
+      } else if (robotEyes.largestObject.centerX > screen_middle_x + 5) {
+        // turn right
+      }
+    }
+  }
+  // move toward block and stop next to it
 
 }
