@@ -30,6 +30,13 @@ void turnRight(const int times) {
   }
 }
 
+void driveForward(const int times) {
+  for (int i = 0; i < times; i++) {
+    leftWheels.spin(directionType::fwd);
+    rightWheels.spin(directionType::fwd);
+  }
+}
+
 void autoRoutine(void) {
   Controller1.Screen.clearScreen();
   Controller1.Screen.setCursor(1,1);
@@ -46,12 +53,23 @@ void autoRoutine(void) {
     {
       if (robotEyes.largestObject.centerX < screen_middle_x - 5)
       {
-        // turn left
+        turnLeft(2);
       } else if (robotEyes.largestObject.centerX > screen_middle_x + 5) {
-        // turn right
+        turnRight(2);
+      } else {
+        linedUp = true;
       }
     }
   }
-  // move toward block and stop next to it
 
+  // At this point object has been identified and is in center of camera's vision
+  bool nextToObject = false;
+  while (!nextToObject) {
+    robotEyes.takeSnapshot(robotEyes__COLORRED);
+    if (robotEyes.largestObject.width < 200) {
+      driveForward(2);
+    } else {
+      nextToObject = true;
+    }
+  }
 }
