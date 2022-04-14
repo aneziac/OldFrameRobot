@@ -115,6 +115,10 @@ int main() {
   */
   bool running = true;
 
+  // toggle practice
+  bool toggleEnabled = false; // two-choice toggle, so we use bool
+  bool buttonPressed = false; // logic variable
+
   // Creates a forever loop to keep the program running, until a specific condition is used to stop it.
   while(running)
   {
@@ -169,6 +173,38 @@ int main() {
     {
       chainMotor.stop(brakeType::hold);
     }
+
+    // toggle practice
+    bool buttonA = Controller1.ButtonA.pressing();
+
+    // toggle logic
+    if(buttonA && !buttonPressed)
+    {
+      buttonPressed = true;
+      toggleEnabled = !toggleEnabled;
+    }
+    else if (!buttonA)
+    {
+      buttonPressed = false;
+    }
+
+    // Code For toggle Enabled or Disabled
+    if(toggleEnabled)
+    {
+      Controller1.Screen.clearScreen();
+      Controller1.Screen.setCursor(1,1);
+      Controller1.Screen.print("Toggle On | Autonomous controls activitated");
+
+      //Do another thing
+    }
+    else
+    {
+      Controller1.Screen.print("Toggle Off | Autonomous controls deactiviated");
+      // do initial thing
+
+    }
+
+    
 
     wait(20,msec); // for refreshing the program.
   }
