@@ -26,6 +26,7 @@ using namespace vex;
 
 const int SCREEN_WIDTH = 480;
 const int SCREEN_HEIGHT = 272 - 30;
+const int CAMERA_WIDTH = 316;
 
 // Convert degrees to radians
 inline double to_radians(double degrees) {
@@ -195,23 +196,24 @@ int main() {
       Controller1.Screen.setCursor(1,1);
       Controller1.Screen.print("Toggle On | Autonomous controls activitated");
 
-     // camera image is 316 pixels wide, so the center is 316/2
-     int screen_middle_x = 316/2;
-     bool linedUp = false;
+      // camera image is 316 pixels wide, so the center is 316/2
+      int screen_middle_x = 316 / 2;
+      bool linedUp = false;
 
-     while(!linedUp)
-     {
-      robotEyes.takeSnapshot(robotEyes__COLORRED);
-      if(robotEyes.objectCount > 0)
+      while(!linedUp)
       {
-        if (robotEyes.largestObject.centerX < screen_middle_x - 5)
+        robotEyes.takeSnapshot(robotEyes__COLORRED);
+        if(robotEyes.objectCount > 0)
         {
-          
+          if (robotEyes.largestObject.centerX < screen_middle_x - 5)
+          {
+            // turn left
+          } else if (robotEyes.largestObject.centerX > screen_middle_x + 5) {
+            // turn right
+          }
         }
       }
-     }
-
-      //Do another thing
+      // move toward block and stop next to it
     }
     else
     {
@@ -219,8 +221,6 @@ int main() {
       // do initial thing
 
     }
-
-    
 
     wait(20,msec); // for refreshing the program.
   }
