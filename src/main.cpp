@@ -27,16 +27,17 @@ int main() {
   // Draws gear logo
   drawLogo();
 
-  // Booleans
-  bool running = true;
-  bool autoOn = false;
-
   // Auto toggle
   bool autoToggleEnabled = false; // two-choice toggle, so we use bool
   bool buttonPressed = false; // logic variable
 
+  // Auto bools
+  bool start = true;
+  bool linedUp = false;
+  bool nextToObject = false;
+
   // Creates a forever loop to keep the program running, until a specific condition is used to stop it.
-  while(running)
+  while (1)
   {
     bool buttonA = Controller1.ButtonA.pressing();
 
@@ -53,7 +54,10 @@ int main() {
 
     // Run auto if toggle on, otherwise use manual controls
     if (autoToggleEnabled) {
-      autoRoutine();
+      autoRoutine(start, linedUp, nextToObject);
+      if (start) {
+        start = false;
+      }
     } else {
       controls();
     }
