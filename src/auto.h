@@ -37,14 +37,15 @@ void driveForward(const int times) {
   }
 }
 
-void autoRoutine(void) {
-  Controller1.Screen.clearScreen();
-  Controller1.Screen.setCursor(1,1);
-  Controller1.Screen.print("Toggle On | Autonomous controls activitated");
+void autoRoutine(bool& start, bool& linedUp, bool& nextToObject) {
+  if (start) {
+    Controller1.Screen.clearScreen();
+    Controller1.Screen.setCursor(1, 1);
+    Controller1.Screen.print("Toggle On | Autonomous controls activitated");
+  }
 
   // camera image is 316 pixels wide, so the center is 316/2
-  int screen_middle_x = 316 / 2;
-  bool linedUp = false;
+  const int screen_middle_x = 316 / 2;
 
   while(!linedUp)
   {
@@ -63,7 +64,6 @@ void autoRoutine(void) {
   }
 
   // At this point object has been identified and is in center of camera's vision
-  bool nextToObject = false;
   while (!nextToObject) {
     robotEyes.takeSnapshot(robotEyes__COLORRED);
     if (robotEyes.largestObject.width < 200) {
