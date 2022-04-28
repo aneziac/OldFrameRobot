@@ -59,7 +59,13 @@ int main() {
         start = false;
       }
     } else {
+      if (!start) {
+        Controller1.Screen.clearScreen();
+        Controller1.Screen.setCursor(1, 1);
+        Controller1.Screen.print("Toggle Off | Autonomous controls deactivitated");
+      }
       controls();
+      start = true;
     }
 
     wait(20, msec); // for refreshing the program.
