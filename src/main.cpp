@@ -28,13 +28,12 @@ int main() {
   drawLogo();
 
   // Auto toggle
-  bool autoToggleEnabled = false; // two-choice toggle, so we use bool
-  bool buttonPressed = false; // logic variable
+  bool autoToggleEnabled = false; // whether the auto toggle is on or off
+  bool buttonPressed = false; // whether the A button is being pressed
 
   // Auto bools
-  bool start = true;
-  bool linedUp = false;
-  bool nextToObject = false;
+  bool linedUp = false;  // whether the robot is pointing directly towards the object
+  bool nextToObject = false;  // whether the robot is right next to the object
 
   // Creates a forever loop to keep the program running, until a specific condition is used to stop it.
   while (1)
@@ -46,6 +45,17 @@ int main() {
     {
       buttonPressed = true;
       autoToggleEnabled = !autoToggleEnabled;
+
+      // Put toggle information on the controller
+      if (autoToggleEnabled) {
+        Controller1.Screen.clearScreen();
+        Controller1.Screen.setCursor(1, 1);
+        Controller1.Screen.print("Toggle On | Autonomous controls activitated");
+      } else {
+        Controller1.Screen.clearScreen();
+        Controller1.Screen.setCursor(1, 1);
+        Controller1.Screen.print("Toggle Off | Autonomous controls deactivitated");
+      }
     }
     else if (!buttonA)
     {
@@ -54,18 +64,9 @@ int main() {
 
     // Run auto if toggle on, otherwise use manual controls
     if (autoToggleEnabled) {
-      autoRoutine(start, linedUp, nextToObject);
-      if (start) {
-        start = false;
-      }
+      autoRoutine(linedUp, nextToObject);
     } else {
-      if (!start) {
-        Controller1.Screen.clearScreen();
-        Controller1.Screen.setCursor(1, 1);
-        Controller1.Screen.print("Toggle Off | Autonomous controls deactivitated");
-      }
       controls();
-      start = true;
     }
 
     wait(20, msec); // for refreshing the program.
